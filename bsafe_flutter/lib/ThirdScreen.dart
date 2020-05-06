@@ -171,7 +171,7 @@ class _MyMapState extends State<MyMap> {
               ),
               SpeedDialChild(
                 child: Icon(Icons.navigation),
-                backgroundColor: Colors.deepPurpleAccent,
+                backgroundColor: Colors.yellow,
                 label: 'Place Marker',
                 onTap: addMarker,
               )
