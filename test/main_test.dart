@@ -1,11 +1,3 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:BSafe/auth/register.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:BSafe/main.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +27,113 @@ void main() {
   testWidgets('verify drawer icon', (tester) async {
     await tester.pumpWidget(new MyApp());
     find.byIcon(Icons.arrow_right);
+  });
+
+  testWidgets('Verify app Starting framework', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: Starting(),
+    ));
+
+    expect(find.widgetWithText(RaisedButton, 'Sign in anonymously'), findsOneWidget);
+  });  
+
+  testWidgets('Verify MyApp framework', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: MyApp(),
+    ));
+
+    expect(find.text('BSafe'), findsOneWidget);
+  });
+
+  testWidgets('Verify Settings traversal from MyApp', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: MyApp(),
+    ));
+
+    await tester.tap(find.byIcon(Icons.settings));
+    await tester.pumpAndSettle();
+    expect(find.text('Settings'), findsWidgets);
+  });
+
+  testWidgets('Verify swapping to registration', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: Starting(),
+    ));
+
+    await tester.tap(find.text('Register'));
+    await tester.pumpAndSettle();
+    expect(find.text('Sign in'), findsOneWidget);
+  });
+
+  testWidgets('Verify swapping between signin and registration', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: Starting(),
+    ));
+
+    await tester.tap(find.text('Register'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Sign in'));
+    await tester.pumpAndSettle();
+    expect(find.text('Register'), findsOneWidget);
+  });
+
+  testWidgets('Sign in button', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: Starting(),
+    ));
+
+    await tester.tap(find.text('Sign in'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Email cannot be empty'), findsOneWidget);
+  });
+
+  testWidgets('Sign in button - no email message', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: Starting(),
+    ));
+
+    await tester.tap(find.text('Sign in'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Email cannot be empty'), findsOneWidget);
+  });
+
+  testWidgets('Sign in button - no password message', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: Starting(),
+    ));
+
+    await tester.tap(find.text('Sign in'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Password cannot be empty'), findsOneWidget);
+  });
+
+  testWidgets('Register button - no email message', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: Starting(),
+    ));
+
+    await tester.tap(find.text('Register'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Register'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Password cannot be empty'), findsOneWidget);
+  });
+
+  testWidgets('Register button - no password message', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: Starting(),
+    ));
+
+    await tester.tap(find.text('Register'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Register'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Email cannot be empty'), findsOneWidget);
   });
 
 }
